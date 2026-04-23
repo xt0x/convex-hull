@@ -3,5 +3,7 @@
 `src/` contains the application library code only.
 
 - `convex_full/` is the root package for the convex hull implementation.
-- The package currently exposes a minimal public version constant and acts as the T0 scaffold.
+- `types.py` defines the public point contract and immutable internal point models.
+- `constants.py` centralizes numeric tolerances so later geometry modules share one source of truth.
+- The package re-exports foundational types and constants from `__init__.py` to keep the public surface small.
 - Future tasks will add geometry, normalization, and algorithm modules while keeping tests isolated under `tests/`.
