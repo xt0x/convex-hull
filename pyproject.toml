@@ -1,0 +1,22 @@
+[project]
+name = "convex-full"
+version = "0.1.0"
+description = "Convex hull library implementation based on the Graham paper plan"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = []
+
+[dependency-groups]
+dev = [
+    "pytest>=9.0.3",
+]
+
+[build-system]
+requires = ["hatchling>=1.27.0"]
+build-backend = "hatchling.build"
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/convex_full"]
