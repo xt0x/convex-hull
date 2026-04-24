@@ -30,4 +30,3 @@ class PivotPoint:
 
     x: float
     y: float
-

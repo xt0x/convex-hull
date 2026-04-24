@@ -10,6 +10,10 @@ dependencies = []
 dev = [
     "pytest>=9.0.3",
 ]
+ci = [
+    "mypy==1.20.2",
+    "ruff==0.15.11",
+]
 
 [build-system]
 requires = ["hatchling>=1.27.0"]
