@@ -8,7 +8,7 @@ from __future__ import annotations
 
 from collections.abc import Sequence
 
-from convex_hull.geometry import centroid, lexicographic_key, orient, orient_sign
+from convex_hull.geometry import centroid, lexicographic_key, orient_turn_sign
 from convex_hull.types import PivotPoint, Point
 
 
@@ -43,7 +43,7 @@ def find_first_non_collinear_triple(
         if c == a or c == b:
             continue
 
-        if orient_sign(orient(a, b, c), epsilon) != 0:
+        if orient_turn_sign(a, b, c, epsilon) != 0:
             return (a, b, c)
 
         # Still collinear; keep endpoints for a stable baseline.

@@ -7,7 +7,7 @@ from typing import Literal, overload
 
 from convex_hull.linked_list import CircularDoublyLinkedList, Node
 from convex_hull.polar import PolarItem
-from convex_hull.geometry import orient, orient_sign
+from convex_hull.geometry import orient_turn_sign
 from convex_hull.types import Point
 
 
@@ -67,7 +67,7 @@ def prune_non_extreme_vertices(
         b = middle
         c = middle.next
 
-        turn = orient_sign(orient(a.item, b.item, c.item), epsilon)
+        turn = orient_turn_sign(a.item, b.item, c.item, epsilon)
         steps += 1
 
         if turn > 0:

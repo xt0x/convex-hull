@@ -114,7 +114,8 @@ def build_polar_items(
         dx = float(p.x) - pivot.x
         dy = float(p.y) - pivot.y
         radius2 = dx * dx + dy * dy
-        if is_zero_radius2(radius2, epsilon):
+        radius_scale = max(abs(dx), abs(dy)) ** 2
+        if is_zero_radius2(radius2, epsilon, scale=radius_scale):
             continue
         angle = _normalize_angle(math.atan2(dy, dx))
         items.append(PolarItem(point=p, angle=angle, radius2=radius2))

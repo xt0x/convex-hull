@@ -5,7 +5,7 @@ from __future__ import annotations
 from collections.abc import Iterable
 
 from convex_hull.constants import ANGLE_EPSILON, EPSILON
-from convex_hull.degenerates import handle_degenerate_cases, remove_exact_duplicates
+from convex_hull.degenerates import prepare_points
 from convex_hull.geometry import lexicographic_key
 from convex_hull.normalize import normalize_points
 from convex_hull.pivot import compute_interior_point
@@ -43,9 +43,7 @@ def convex_hull(points: Iterable[PointLike]) -> list[Point]:
     """
 
     normalized = normalize_points(points)
-    unique = remove_exact_duplicates(normalized)
-
-    degenerate = handle_degenerate_cases(unique, EPSILON)
+    unique, degenerate = prepare_points(normalized, EPSILON)
     if degenerate is not None:
         return rotate_to_lexicographically_smallest_start(degenerate)
 
