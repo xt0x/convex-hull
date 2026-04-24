@@ -108,8 +108,8 @@ uv run python -m convex_hull.cli.plot_convex_hull points.json output/hull.png
 
 ### Sample output
 
-<div align="center">
-    <img alt="Sample convex hull plot" src="assets/README/sample-convex-hull.png" />
+<div align="">
+    <img alt="Sample convex hull plot" src="assets/README/sample-convex-hull.png" width="60%" />
 </div>
 
 If `matplotlib` is not installed, the plotting helper will fail with an explicit message. Install it with `uv sync --group dev` or `pip install .[plot]`.
