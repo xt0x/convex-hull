@@ -1,6 +1,5 @@
 # convex-hull
 
-Minimal `uv`-managed library scaffold for the convex hull implementation plan in [docs/SPEC.md](docs/SPEC.md).
 
 ## Development
 
@@ -13,6 +12,7 @@ Minimal `uv`-managed library scaffold for the convex hull implementation plan in
 - Render a PNG with `uv run convex-hull-plot points.json output/hull.png`
 - Module form is also available: `uv run python -m convex_hull.cli.plot_convex_hull points.json output/hull.png`
 - Optional title/dpi example: `uv run convex-hull-plot points.json output/hull.png --title "Sample Hull" --dpi 200`
+- Plotting requires `matplotlib` (install via `uv sync --group dev` or `pip install .[plot]`)
 
 Example `points.json`:
 

@@ -12,7 +12,7 @@
 - `pivot.py` finds a non-collinear triple and computes an interior reference point `P` (triangle centroid).
 - `polar.py` converts points into polar form around `P` (angle via `atan2` and radius^2), and provides utilities for sorting by angle and collapsing same-direction points into `S'`.
 - `prune.py` performs the step-5 deletion iteration on `S'` using a circular list, and can return termination statistics.
-- `algorithm.py` wires the full pipeline into the public `convex_hull(points)` API and normalizes the output start point.
+- `algorithm.py` wires the hull pipeline into the public `convex_hull(points)` API and normalizes the output start point.
 - `visualize.py` provides optional developer-side helpers for loading JSON points and rendering a PNG via `matplotlib`.
 - `cli/` contains command-line entry points layered on top of the library so future developer tools can grow without mixing with shell scripts.
 - The package re-exports foundational types and constants from `__init__.py` to keep the public surface small.
