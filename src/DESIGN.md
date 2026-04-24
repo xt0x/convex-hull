@@ -10,6 +10,6 @@
 - `linked_list.py` provides a doubly-linked circular list for the prune step's delete-and-rewind behavior.
 - `degenerates.py` removes exact duplicates and handles degenerate inputs (empty, 1/2 points, all-collinear).
 - `pivot.py` finds a non-collinear triple and computes an interior reference point `P` (triangle centroid).
-- `polar.py` converts points into polar form around `P` (angle via `atan2` and radius^2), excluding points at `P`.
+- `polar.py` converts points into polar form around `P` (angle via `atan2` and radius^2), and provides utilities for sorting by angle and collapsing same-direction points into `S'`.
 - The package re-exports foundational types and constants from `__init__.py` to keep the public surface small.
 - Future tasks will add geometry, normalization, and algorithm modules while keeping tests isolated under `tests/`.
