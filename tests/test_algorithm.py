@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 
-from convex_full import convex_hull
-from convex_full.types import Point
+from convex_hull import convex_hull
+from convex_hull.types import Point
 
 
 @dataclass(frozen=True, slots=True)

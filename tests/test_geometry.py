@@ -2,8 +2,8 @@ import math
 
 import pytest
 
-from convex_full.constants import EPSILON
-from convex_full.geometry import (
+from convex_hull.constants import EPSILON
+from convex_hull.geometry import (
     centroid,
     is_zero_radius2,
     lexicographic_key,
@@ -11,7 +11,7 @@ from convex_full.geometry import (
     orient_sign,
     squared_distance,
 )
-from convex_full.types import PivotPoint, Point
+from convex_hull.types import PivotPoint, Point
 
 
 def test_orient_left_turn_right_turn_and_collinear() -> None:

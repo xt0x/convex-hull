@@ -1,13 +1,13 @@
 import pytest
 
-from convex_full.constants import EPSILON
-from convex_full.degenerates import (
+from convex_hull.constants import EPSILON
+from convex_hull.degenerates import (
     all_collinear,
     handle_degenerate_cases,
     remove_exact_duplicates,
     two_endpoints_of_collinear_set,
 )
-from convex_full.types import Point
+from convex_hull.types import Point
 
 
 def test_remove_exact_duplicates_preserves_order() -> None:

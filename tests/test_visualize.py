@@ -2,8 +2,8 @@ import json
 
 import pytest
 
-from convex_full.types import Point
-from convex_full.visualize import (
+from convex_hull.types import Point
+from convex_hull.visualize import (
     load_points_from_json,
     parse_point_collection,
     save_convex_hull_plot,

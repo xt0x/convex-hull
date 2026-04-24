@@ -4,19 +4,19 @@ from __future__ import annotations
 
 from collections.abc import Iterable
 
-from convex_full.constants import ANGLE_EPSILON, EPSILON
-from convex_full.degenerates import handle_degenerate_cases, remove_exact_duplicates
-from convex_full.geometry import lexicographic_key
-from convex_full.normalize import normalize_points
-from convex_full.pivot import compute_interior_point
-from convex_full.polar import (
+from convex_hull.constants import ANGLE_EPSILON, EPSILON
+from convex_hull.degenerates import handle_degenerate_cases, remove_exact_duplicates
+from convex_hull.geometry import lexicographic_key
+from convex_hull.normalize import normalize_points
+from convex_hull.pivot import compute_interior_point
+from convex_hull.polar import (
     PolarItem,
     build_polar_items,
     collapse_same_angle_keep_farthest,
     sort_by_angle,
 )
-from convex_full.prune import prune_non_extreme_vertices
-from convex_full.types import Point, PointLike
+from convex_hull.prune import prune_non_extreme_vertices
+from convex_hull.types import Point, PointLike
 
 
 def rotate_to_lexicographically_smallest_start(points: list[Point]) -> list[Point]:

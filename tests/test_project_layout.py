@@ -11,7 +11,7 @@ def test_runtime_dependencies_are_empty() -> None:
 
 
 def test_src_layout_package_is_importable() -> None:
-    module = import_module("convex_full")
+    module = import_module("convex_hull")
 
     assert hasattr(module, "__all__")
 

@@ -7,8 +7,8 @@ from collections.abc import Sequence
 from pathlib import Path
 from typing import Any, TypeGuard
 
-from convex_full.algorithm import convex_hull
-from convex_full.types import Number, Point, PointLike
+from convex_hull.algorithm import convex_hull
+from convex_hull.types import Number, Point, PointLike
 
 
 def _is_number(value: object) -> TypeGuard[Number]:

@@ -2,15 +2,15 @@ import math
 
 import pytest
 
-from convex_full.constants import ANGLE_EPSILON, EPSILON
-from convex_full.polar import (
+from convex_hull.constants import ANGLE_EPSILON, EPSILON
+from convex_hull.polar import (
     PolarItem,
     build_polar_items,
     collapse_same_angle_keep_farthest,
     same_direction,
     sort_by_angle,
 )
-from convex_full.types import PivotPoint, Point
+from convex_hull.types import PivotPoint, Point
 
 
 def test_build_polar_items_computes_angles_and_radius2_and_preserves_order() -> None:

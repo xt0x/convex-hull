@@ -5,10 +5,10 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Literal, overload
 
-from convex_full.linked_list import CircularDoublyLinkedList, Node
-from convex_full.polar import PolarItem
-from convex_full.geometry import orient, orient_sign
-from convex_full.types import Point
+from convex_hull.linked_list import CircularDoublyLinkedList, Node
+from convex_hull.polar import PolarItem
+from convex_hull.geometry import orient, orient_sign
+from convex_hull.types import Point
 
 
 @dataclass(frozen=True, slots=True)

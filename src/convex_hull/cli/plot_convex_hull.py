@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import argparse
 
-from convex_full.visualize import load_points_from_json, save_convex_hull_plot
+from convex_hull.visualize import load_points_from_json, save_convex_hull_plot
 
 
 def build_parser() -> argparse.ArgumentParser:

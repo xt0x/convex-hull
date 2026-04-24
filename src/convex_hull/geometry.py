@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from convex_full.types import Number, PivotPoint, PointLike
+from convex_hull.types import Number, PivotPoint, PointLike
 
 
 def orient(a: PointLike, b: PointLike, c: PointLike) -> float:

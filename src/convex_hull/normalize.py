@@ -9,7 +9,7 @@ from __future__ import annotations
 from collections.abc import Iterable
 from typing import cast
 
-from convex_full.types import Number, Point, PointLike
+from convex_hull.types import Number, Point, PointLike
 
 
 def _is_number(value: object) -> bool:

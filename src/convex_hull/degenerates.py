@@ -4,8 +4,8 @@ from __future__ import annotations
 
 from collections.abc import Iterable, Sequence
 
-from convex_full.geometry import lexicographic_key, orient, orient_sign
-from convex_full.types import Point
+from convex_hull.geometry import lexicographic_key, orient, orient_sign
+from convex_hull.types import Point
 
 
 def remove_exact_duplicates(points: Iterable[Point]) -> list[Point]:

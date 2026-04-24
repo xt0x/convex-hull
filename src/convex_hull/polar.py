@@ -9,8 +9,8 @@ from __future__ import annotations
 import math
 from dataclasses import dataclass
 
-from convex_full.geometry import is_zero_radius2
-from convex_full.types import PivotPoint, Point
+from convex_hull.geometry import is_zero_radius2
+from convex_hull.types import PivotPoint, Point
 
 
 @dataclass(frozen=True, slots=True)

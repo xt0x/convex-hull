@@ -8,8 +8,8 @@ from __future__ import annotations
 
 from collections.abc import Sequence
 
-from convex_full.geometry import centroid, lexicographic_key, orient, orient_sign
-from convex_full.types import PivotPoint, Point
+from convex_hull.geometry import centroid, lexicographic_key, orient, orient_sign
+from convex_hull.types import PivotPoint, Point
 
 
 def find_first_non_collinear_triple(

@@ -1,7 +1,7 @@
 import json
 import sys
 
-from convex_full.cli.plot_convex_hull import main
+from convex_hull.cli.plot_convex_hull import main
 
 
 def test_cli_plot_convex_hull_writes_png(tmp_path, monkeypatch, capsys) -> None:
@@ -13,7 +13,7 @@ def test_cli_plot_convex_hull_writes_png(tmp_path, monkeypatch, capsys) -> None:
         sys,
         "argv",
         [
-            "convex-full-plot",
+            "convex-hull-plot",
             str(source),
             str(output),
             "--title",
