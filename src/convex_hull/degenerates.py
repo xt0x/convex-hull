@@ -4,8 +4,8 @@ from __future__ import annotations
 
 from collections.abc import Iterable, Sequence
 
-from convex_full.geometry import lexicographic_key, orient, orient_sign
-from convex_full.types import Point
+from convex_hull.geometry import lexicographic_key, orient_turn_sign
+from convex_hull.types import Point
 
 
 def remove_exact_duplicates(points: Iterable[Point]) -> list[Point]:
@@ -41,7 +41,7 @@ def all_collinear(points: Sequence[Point], epsilon: float) -> bool:
         return True
 
     for c in points:
-        if orient_sign(orient(a, b, c), epsilon) != 0:
+        if orient_turn_sign(a, b, c, epsilon) != 0:
             return False
     return True
 
@@ -59,6 +59,33 @@ def two_endpoints_of_collinear_set(points: Sequence[Point]) -> list[Point]:
     return [low, high]
 
 
+def prepare_points(
+    points: Sequence[Point], epsilon: float
+) -> tuple[list[Point], list[Point] | None]:
+    """Return `(unique_points, degenerate_hull_or_none)` for the input.
+
+    This is a small helper for wiring the pipeline without repeating the
+    de-duplication work in callers.
+    """
+
+    if epsilon < 0:
+        raise ValueError("epsilon must be non-negative")
+
+    unique = remove_exact_duplicates(points)
+
+    if len(unique) == 0:
+        return (unique, [])
+    if len(unique) == 1:
+        return (unique, [unique[0]])
+    if len(unique) == 2:
+        return (unique, unique)
+
+    if all_collinear(unique, epsilon):
+        return (unique, two_endpoints_of_collinear_set(unique))
+
+    return (unique, None)
+
+
 def handle_degenerate_cases(
     points: Sequence[Point], epsilon: float
 ) -> list[Point] | None:
@@ -72,16 +99,5 @@ def handle_degenerate_cases(
     if epsilon < 0:
         raise ValueError("epsilon must be non-negative")
 
-    unique = remove_exact_duplicates(points)
-
-    if len(unique) == 0:
-        return []
-    if len(unique) == 1:
-        return [unique[0]]
-    if len(unique) == 2:
-        return unique
-
-    if all_collinear(unique, epsilon):
-        return two_endpoints_of_collinear_set(unique)
-
-    return None
+    _unique, degenerate = prepare_points(points, epsilon)
+    return degenerate

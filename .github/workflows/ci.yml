@@ -14,13 +14,40 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  checks:
+    name: Checks (Python 3.13)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install uv and Python
+        uses: astral-sh/setup-uv@v7
+        with:
+          version: "0.11.7"
+          python-version: "3.13"
+          enable-cache: true
+
+      - name: Sync dependencies
+        run: make sync
+
+      - name: Run checks
+        run: |
+          make lint
+          make format-check
+          make typecheck
+
+      - name: Minimize uv cache
+        if: always()
+        run: uv cache prune --ci
+
   test:
     name: Test (Python ${{ matrix.python-version }})
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
-        python-version: ["3.13"]
+        python-version: ["3.11", "3.12", "3.13"]
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -35,8 +62,8 @@ jobs:
       - name: Sync dependencies
         run: make sync
 
-      - name: Run checks
-        run: make ci
+      - name: Run tests
+        run: make test
 
       - name: Minimize uv cache
         if: always()

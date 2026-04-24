@@ -1,6 +1,6 @@
-from convex_full.constants import EPSILON
-from convex_full.pivot import compute_interior_point, find_first_non_collinear_triple
-from convex_full.types import PivotPoint, Point
+from convex_hull.constants import EPSILON
+from convex_hull.pivot import compute_interior_point, find_first_non_collinear_triple
+from convex_hull.types import PivotPoint, Point
 
 
 def test_find_first_non_collinear_triple_found_immediately() -> None:

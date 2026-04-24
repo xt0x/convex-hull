@@ -9,12 +9,8 @@ from __future__ import annotations
 from collections.abc import Iterable
 from typing import cast
 
-from convex_full.types import Number, Point, PointLike
-
-
-def _is_number(value: object) -> bool:
-    # `bool` is a subclass of `int`, but it's not a meaningful coordinate type here.
-    return isinstance(value, (int, float)) and not isinstance(value, bool)
+from convex_hull.types import Number, Point, PointLike
+from convex_hull.validation import is_number_coordinate
 
 
 def normalize_points(points: Iterable[PointLike]) -> list[Point]:
@@ -34,7 +30,7 @@ def normalize_points(points: Iterable[PointLike]) -> list[Point]:
                 f"PointLike must have x and y attributes; got {type(item).__name__}"
             ) from exc
 
-        if not _is_number(x) or not _is_number(y):
+        if not is_number_coordinate(x) or not is_number_coordinate(y):
             raise TypeError(
                 "PointLike coordinates must be int|float (bool is not allowed); "
                 f"got x={type(x).__name__}, y={type(y).__name__}"

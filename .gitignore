@@ -176,13 +176,14 @@ cython_debug/
 # macOS
 /DS_Store
 
-# Documentation
-docs/
-
 # Codex 
 AGENTS.md
 
-# 
+# Documentation
+docs/
+
+# Example input data (see README)
 points.json
 
+# Local generated artifacts
 output/

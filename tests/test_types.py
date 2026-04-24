@@ -2,8 +2,8 @@ from dataclasses import FrozenInstanceError
 
 import pytest
 
-from convex_full.constants import ANGLE_EPSILON, EPSILON
-from convex_full.types import PivotPoint, Point
+from convex_hull.constants import ANGLE_EPSILON, EPSILON
+from convex_hull.types import PivotPoint, Point
 
 
 def test_point_value_equality_and_hashability() -> None:

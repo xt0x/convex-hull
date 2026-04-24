@@ -2,10 +2,10 @@ import math
 
 import pytest
 
-from convex_full.constants import EPSILON
-from convex_full.polar import PolarItem
-from convex_full.prune import prune_non_extreme_vertices
-from convex_full.types import Point
+from convex_hull.constants import EPSILON
+from convex_hull.polar import PolarItem
+from convex_hull.prune import prune_non_extreme_vertices
+from convex_hull.types import Point
 
 
 def _items_around_origin(points: list[Point]) -> list[PolarItem]:

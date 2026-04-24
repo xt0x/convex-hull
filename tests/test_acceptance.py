@@ -1,17 +1,17 @@
 import random
 
-from convex_full import convex_hull
-from convex_full.constants import ANGLE_EPSILON, EPSILON
-from convex_full.degenerates import remove_exact_duplicates
-from convex_full.normalize import normalize_points
-from convex_full.pivot import compute_interior_point
-from convex_full.polar import (
+from convex_hull import convex_hull
+from convex_hull.constants import ANGLE_EPSILON, EPSILON
+from convex_hull.degenerates import remove_exact_duplicates
+from convex_hull.normalize import normalize_points
+from convex_hull.pivot import compute_interior_point
+from convex_hull.polar import (
     build_polar_items,
     collapse_same_angle_keep_farthest,
     sort_by_angle,
 )
-from convex_full.prune import prune_non_extreme_vertices
-from convex_full.types import Point
+from convex_hull.prune import prune_non_extreme_vertices
+from convex_hull.types import Point
 
 
 def _cross(origin: Point, a: Point, b: Point) -> float:

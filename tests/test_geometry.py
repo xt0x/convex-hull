@@ -2,16 +2,17 @@ import math
 
 import pytest
 
-from convex_full.constants import EPSILON
-from convex_full.geometry import (
+from convex_hull.constants import EPSILON
+from convex_hull.geometry import (
     centroid,
     is_zero_radius2,
     lexicographic_key,
     orient,
     orient_sign,
+    orient_turn_sign,
     squared_distance,
 )
-from convex_full.types import PivotPoint, Point
+from convex_hull.types import PivotPoint, Point
 
 
 def test_orient_left_turn_right_turn_and_collinear() -> None:
@@ -44,6 +45,22 @@ def test_orient_sign(value: float, epsilon: float, expected: int) -> None:
     assert orient_sign(value, epsilon) == expected
 
 
+def test_orient_turn_sign_scales_down_for_tiny_coordinates() -> None:
+    a = Point(0.0, 0.0)
+    b = Point(1e-9, 0.0)
+    c = Point(1e-9, 1e-18)
+
+    assert orient_turn_sign(a, b, c, EPSILON) == 1
+
+
+def test_orient_turn_sign_scales_up_for_large_coordinates() -> None:
+    a = Point(0.0, 0.0)
+    b = Point(1e9, 1e9)
+    c = Point(2e9, 2e9 + 1e-3)
+
+    assert orient_turn_sign(a, b, c, EPSILON) == 0
+
+
 def test_squared_distance() -> None:
     assert squared_distance(Point(0, 0), Point(3, 4)) == 25.0
     assert squared_distance(Point(-1, -1), Point(2, 3)) == 25.0
@@ -62,6 +79,11 @@ def test_is_zero_radius2() -> None:
     assert is_zero_radius2(EPSILON * 0.5, EPSILON)
     assert is_zero_radius2(-EPSILON * 0.5, EPSILON)
     assert not is_zero_radius2(EPSILON * 2, EPSILON)
+
+
+def test_is_zero_radius2_scales_with_coordinate_magnitude() -> None:
+    assert not is_zero_radius2(1e-40, EPSILON, scale=1e-40)
+    assert is_zero_radius2(1e-6, EPSILON, scale=1e9)
 
 
 def test_lexicographic_key() -> None:

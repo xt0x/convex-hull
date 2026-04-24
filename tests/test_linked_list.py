@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import pytest
 
-from convex_full.linked_list import CircularDoublyLinkedList, Node
+from convex_hull.linked_list import CircularDoublyLinkedList, Node
 
 
 def _collect_items_from(node: Node[int]) -> list[int]:

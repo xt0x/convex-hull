@@ -1,7 +1,7 @@
 import pytest
 
-from convex_full.normalize import normalize_points
-from convex_full.types import Point
+from convex_hull.normalize import normalize_points
+from convex_hull.types import Point
 
 
 class _XY:

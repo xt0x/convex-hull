@@ -12,7 +12,7 @@ help:
 		'  typecheck  Run static type checks (requires network to fetch tools)'
 
 sync:
-	uv sync --frozen --group ci
+	uv sync --frozen --group ci --group dev
 
 test:
 	uv run pytest
@@ -23,7 +23,7 @@ ci:
 	@$(MAKE) typecheck
 	@$(MAKE) test
 
-# Tooling is intentionally fetched ad-hoc so we don't grow pyproject dev deps early.
+# Lint/typecheck tooling is managed in the ci dependency group and invoked via uv run.
 lint:
 	uv run ruff check .
 
@@ -34,5 +34,5 @@ format-check:
 	uv run ruff format --check .
 
 typecheck:
-	uv run mypy --python-version 3.13 src
+	uv run mypy --python-version 3.11 src
 	
