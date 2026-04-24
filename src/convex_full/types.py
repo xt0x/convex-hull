@@ -12,8 +12,11 @@ Number: TypeAlias = int | float
 class PointLike(Protocol):
     """Public input contract for point-like values."""
 
-    x: Number
-    y: Number
+    @property
+    def x(self) -> Number: ...
+
+    @property
+    def y(self) -> Number: ...
 
 
 @dataclass(frozen=True, slots=True)
