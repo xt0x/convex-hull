@@ -1,0 +1,109 @@
+"""Optional plotting helpers for visualizing points and their convex hull."""
+
+from __future__ import annotations
+
+import json
+from collections.abc import Sequence
+from pathlib import Path
+from typing import Any, TypeGuard
+
+from convex_full.algorithm import convex_hull
+from convex_full.types import Number, Point, PointLike
+
+
+def _is_number(value: object) -> TypeGuard[Number]:
+    return isinstance(value, (int, float)) and not isinstance(value, bool)
+
+
+def parse_point_collection(data: Any) -> list[Point]:
+    """Parse a JSON-compatible point collection into internal points.
+
+    Supported forms:
+    - `[{"x": 0, "y": 1}, ...]`
+    - `[[0, 1], [2, 3], ...]`
+    """
+
+    if not isinstance(data, list):
+        raise TypeError("point collection must be a list")
+
+    points: list[Point] = []
+    for item in data:
+        x: object
+        y: object
+        if isinstance(item, dict):
+            if "x" not in item or "y" not in item:
+                raise TypeError("point objects must contain x and y keys")
+            x = item["x"]
+            y = item["y"]
+        elif isinstance(item, list | tuple):
+            if len(item) != 2:
+                raise TypeError("point arrays must contain exactly two values")
+            x, y = item
+        else:
+            raise TypeError("each point must be an object with x/y or a 2-item array")
+
+        if not _is_number(x) or not _is_number(y):
+            raise TypeError("point coordinates must be int|float (bool is not allowed)")
+
+        points.append(Point(x, y))
+
+    return points
+
+
+def load_points_from_json(path: str | Path) -> list[Point]:
+    """Load points from a JSON file."""
+
+    source = Path(path)
+    data = json.loads(source.read_text(encoding="utf-8"))
+    return parse_point_collection(data)
+
+
+def save_convex_hull_plot(
+    points: Sequence[PointLike],
+    output_path: str | Path,
+    *,
+    title: str = "Convex Hull",
+    dpi: int = 150,
+) -> Path:
+    """Save a PNG visualization of points and their convex hull."""
+
+    import matplotlib
+
+    matplotlib.use("Agg")
+    import matplotlib.pyplot as plt
+
+    normalized_points = [Point(point.x, point.y) for point in points]
+    hull = convex_hull(normalized_points)
+
+    output = Path(output_path)
+    output.parent.mkdir(parents=True, exist_ok=True)
+
+    fig, ax = plt.subplots(figsize=(6, 6))
+
+    point_x = [float(point.x) for point in normalized_points]
+    point_y = [float(point.y) for point in normalized_points]
+    ax.scatter(point_x, point_y, color="#1f77b4", label="points", zorder=2)
+
+    if hull:
+        hull_cycle = hull if len(hull) == 1 else [*hull, hull[0]]
+        hull_x = [float(point.x) for point in hull_cycle]
+        hull_y = [float(point.y) for point in hull_cycle]
+        ax.plot(hull_x, hull_y, color="#d62728", linewidth=2, label="hull", zorder=3)
+        ax.scatter(
+            [float(point.x) for point in hull],
+            [float(point.y) for point in hull],
+            color="#d62728",
+            s=45,
+            zorder=4,
+        )
+
+    ax.set_title(title)
+    ax.set_xlabel("x")
+    ax.set_ylabel("y")
+    ax.grid(True, linestyle="--", alpha=0.3)
+    ax.set_aspect("equal", adjustable="datalim")
+    ax.legend(loc="best")
+
+    fig.savefig(output, dpi=dpi, bbox_inches="tight")
+    plt.close(fig)
+    return output
