@@ -113,4 +113,3 @@ class CircularDoublyLinkedList(Generic[T]):
         node._owner = None
         node.next = node
         node.prev = node
-
