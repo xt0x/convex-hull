@@ -23,7 +23,7 @@ ci:
 	@$(MAKE) typecheck
 	@$(MAKE) test
 
-# Tooling is intentionally fetched ad-hoc so we don't grow pyproject dev deps early.
+# Lint/typecheck tooling is managed in the ci dependency group and invoked via uv run.
 lint:
 	uv run ruff check .
 
