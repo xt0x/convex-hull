@@ -9,10 +9,11 @@ from typing import Any, TypeGuard
 
 from convex_hull.algorithm import convex_hull
 from convex_hull.types import Number, Point, PointLike
+from convex_hull.validation import is_number_coordinate
 
 
 def _is_number(value: object) -> TypeGuard[Number]:
-    return isinstance(value, (int, float)) and not isinstance(value, bool)
+    return is_number_coordinate(value)
 
 
 def parse_point_collection(data: Any) -> list[Point]:
@@ -54,8 +55,25 @@ def load_points_from_json(path: str | Path) -> list[Point]:
     """Load points from a JSON file."""
 
     source = Path(path)
-    data = json.loads(source.read_text(encoding="utf-8"))
-    return parse_point_collection(data)
+    try:
+        raw = source.read_text(encoding="utf-8")
+    except FileNotFoundError:
+        raise
+    except OSError as exc:
+        detail = exc.strerror or str(exc)
+        raise OSError(f"failed to read {source}: {detail}") from exc
+
+    try:
+        data = json.loads(raw)
+    except json.JSONDecodeError as exc:
+        raise ValueError(
+            f"invalid JSON in {source}: line {exc.lineno} column {exc.colno}: {exc.msg}"
+        ) from exc
+
+    try:
+        return parse_point_collection(data)
+    except TypeError as exc:
+        raise ValueError(f"invalid point collection in {source}: {exc}") from exc
 
 
 def save_convex_hull_plot(
@@ -67,7 +85,16 @@ def save_convex_hull_plot(
 ) -> Path:
     """Save a PNG visualization of points and their convex hull."""
 
-    import matplotlib
+    if dpi <= 0:
+        raise ValueError("dpi must be a positive integer")
+
+    try:
+        import matplotlib
+    except ModuleNotFoundError as exc:  # pragma: no cover
+        raise RuntimeError(
+            "Plotting requires matplotlib. Install with `uv sync --group dev` "
+            "or `pip install .[plot]`."
+        ) from exc
 
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
@@ -76,34 +103,44 @@ def save_convex_hull_plot(
     hull = convex_hull(normalized_points)
 
     output = Path(output_path)
-    output.parent.mkdir(parents=True, exist_ok=True)
+    fig = None
+    try:
+        output.parent.mkdir(parents=True, exist_ok=True)
 
-    fig, ax = plt.subplots(figsize=(6, 6))
+        fig, ax = plt.subplots(figsize=(6, 6))
 
-    point_x = [float(point.x) for point in normalized_points]
-    point_y = [float(point.y) for point in normalized_points]
-    ax.scatter(point_x, point_y, color="#1f77b4", label="points", zorder=2)
+        point_x = [float(point.x) for point in normalized_points]
+        point_y = [float(point.y) for point in normalized_points]
+        ax.scatter(point_x, point_y, color="#1f77b4", label="points", zorder=2)
 
-    if hull:
-        hull_cycle = hull if len(hull) == 1 else [*hull, hull[0]]
-        hull_x = [float(point.x) for point in hull_cycle]
-        hull_y = [float(point.y) for point in hull_cycle]
-        ax.plot(hull_x, hull_y, color="#d62728", linewidth=2, label="hull", zorder=3)
-        ax.scatter(
-            [float(point.x) for point in hull],
-            [float(point.y) for point in hull],
-            color="#d62728",
-            s=45,
-            zorder=4,
-        )
+        if hull:
+            hull_cycle = hull if len(hull) == 1 else [*hull, hull[0]]
+            hull_x = [float(point.x) for point in hull_cycle]
+            hull_y = [float(point.y) for point in hull_cycle]
+            ax.plot(
+                hull_x, hull_y, color="#d62728", linewidth=2, label="hull", zorder=3
+            )
+            ax.scatter(
+                [float(point.x) for point in hull],
+                [float(point.y) for point in hull],
+                color="#d62728",
+                s=45,
+                zorder=4,
+            )
 
-    ax.set_title(title)
-    ax.set_xlabel("x")
-    ax.set_ylabel("y")
-    ax.grid(True, linestyle="--", alpha=0.3)
-    ax.set_aspect("equal", adjustable="datalim")
-    ax.legend(loc="best")
+        ax.set_title(title)
+        ax.set_xlabel("x")
+        ax.set_ylabel("y")
+        ax.grid(True, linestyle="--", alpha=0.3)
+        ax.set_aspect("equal", adjustable="datalim")
+        ax.legend(loc="best")
 
-    fig.savefig(output, dpi=dpi, bbox_inches="tight")
-    plt.close(fig)
+        fig.savefig(output, dpi=dpi, bbox_inches="tight")
+    except OSError as exc:
+        detail = exc.strerror or str(exc)
+        raise OSError(f"failed to write plot to {output}: {detail}") from exc
+    finally:
+        if fig is not None:
+            plt.close(fig)
+
     return output
