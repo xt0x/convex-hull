@@ -1,12 +1,13 @@
 from importlib import import_module
 from pathlib import Path
+import tomllib
 
 
 def test_runtime_dependencies_are_empty() -> None:
     pyproject = Path(__file__).resolve().parents[1] / "pyproject.toml"
-    content = pyproject.read_text(encoding="utf-8")
+    data = tomllib.loads(pyproject.read_text(encoding="utf-8"))
 
-    assert "dependencies = []" in content
+    assert data["project"]["dependencies"] == []
 
 
 def test_src_layout_package_is_importable() -> None:
