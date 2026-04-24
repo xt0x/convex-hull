@@ -12,7 +12,7 @@ help:
 		'  typecheck  Run static type checks (requires network to fetch tools)'
 
 sync:
-	uv sync --frozen --group ci
+	uv sync --frozen --group ci --group dev
 
 test:
 	uv run pytest
@@ -34,5 +34,5 @@ format-check:
 	uv run ruff format --check .
 
 typecheck:
-	uv run mypy --python-version 3.13 src
+	uv run mypy --python-version 3.11 src
 	

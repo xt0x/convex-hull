@@ -10,6 +10,22 @@ def test_runtime_dependencies_are_empty() -> None:
     assert data["project"]["dependencies"] == []
 
 
+def test_minimum_supported_python_is_3_11() -> None:
+    pyproject = Path(__file__).resolve().parents[1] / "pyproject.toml"
+    data = tomllib.loads(pyproject.read_text(encoding="utf-8"))
+
+    assert data["project"]["requires-python"] == ">=3.11"
+
+
+def test_version_is_configured_dynamically_from_single_source() -> None:
+    pyproject = Path(__file__).resolve().parents[1] / "pyproject.toml"
+    data = tomllib.loads(pyproject.read_text(encoding="utf-8"))
+
+    assert "version" not in data["project"]
+    assert data["project"]["dynamic"] == ["version"]
+    assert data["tool"]["hatch"]["version"]["path"] == "src/convex_hull/_version.py"
+
+
 def test_src_layout_package_is_importable() -> None:
     module = import_module("convex_hull")
 

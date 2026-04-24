@@ -1,13 +1,18 @@
 [project]
 name = "convex-hull"
-version = "0.1.0"
 description = "Convex hull library implementation based on the Graham paper plan"
 readme = "README.md"
-requires-python = ">=3.13"
+requires-python = ">=3.11"
 dependencies = []
+dynamic = ["version"]
 
 [project.scripts]
 convex-hull-plot = "convex_hull.cli.plot_convex_hull:main"
+
+[project.optional-dependencies]
+plot = [
+    "matplotlib>=3.10.9",
+]
 
 [dependency-groups]
 dev = [
@@ -28,3 +33,6 @@ pythonpath = ["src"]
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/convex_hull"]
+
+[tool.hatch.version]
+path = "src/convex_hull/_version.py"
