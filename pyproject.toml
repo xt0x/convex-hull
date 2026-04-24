@@ -6,8 +6,12 @@ readme = "README.md"
 requires-python = ">=3.13"
 dependencies = []
 
+[project.scripts]
+convex-full-plot = "convex_full.cli.plot_convex_hull:main"
+
 [dependency-groups]
 dev = [
+    "matplotlib>=3.10.9",
     "pytest>=9.0.3",
 ]
 ci = [

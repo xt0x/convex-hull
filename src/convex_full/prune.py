@@ -53,11 +53,11 @@ def prune_non_extreme_vertices(
 
     assert ll.head is not None
     middle: Node[Point] = ll.head
+    validated_node_ids: set[int] = set()
 
     steps = 0
     advances = 0
     deletions = 0
-    advances_since_deletion = 0
 
     # Proof (SPEC 4.7) gives a < 2n' bound on steps. Keep a hard cap as a guard.
     max_steps = 2 * initial_n
@@ -71,20 +71,23 @@ def prune_non_extreme_vertices(
         steps += 1
 
         if turn > 0:
+            validated_node_ids.add(id(middle))
             middle = middle.next
             advances += 1
-            advances_since_deletion += 1
+            if len(validated_node_ids) == ll.size:
+                break
         else:
             to_delete = middle
+            previous_node = middle.prev
+            next_node = middle.next
             middle = middle.prev  # back up one point before deletion
             ll.delete(to_delete)
             deletions += 1
-            advances_since_deletion = 0
+            validated_node_ids.discard(id(to_delete))
+            validated_node_ids.discard(id(previous_node))
+            validated_node_ids.discard(id(next_node))
 
         if ll.size <= 2:
-            break
-
-        if advances_since_deletion >= ll.size:
             break
 
     if steps >= max_steps:
