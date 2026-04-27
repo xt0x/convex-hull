@@ -10,7 +10,7 @@
 
 ## Overview
 
-This repository provides a Python implementation of a 2D convex hull pipeline inspired by the Graham paper and accompanying project specification.
+This repository provides a Python implementation of a 2D convex hull pipeline inspired by the [Graham paper](assets/README/convex-hull.pdf) and accompanying project specification.
 
 The repository includes the following capabilities:
 
@@ -109,7 +109,7 @@ uv run python -m convex_hull.cli.plot_convex_hull points.json output/hull.png
 ### Sample output
 
 <div align="">
-    <img alt="Sample convex hull plot" src="assets/README/sample-convex-hull.png" width="60%" />
+    <img alt="Sample convex hull plot" src="assets/README/sample-convex-hull.png" width="70%" />
 </div>
 
 If `matplotlib` is not installed, the plotting helper will fail with an explicit message. Install it with `uv sync --group dev` or `pip install .[plot]`.
